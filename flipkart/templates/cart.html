@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+    {% block metadescription %}
+        Cart Page
+    {% endblock %}
+
+    {% block title %}
+        Cart - MyBag Pvt
+    {% endblock %}
+
+    {% block content %}
+        {% if not cart_item %}
+            <div>
+                <div class="text-center">
+                    <br>
+                    <h2 class="text-center my_title">
+                        Your Cart is Empty
+                    </h2>
+                    <br>
+                    <p class="text-center">
+                        <a href="{% url 'app:all_category' %}">Go to Home Page</a>
+                    </p>
+                </div>
+            </div>
+        {% else %}
+            <div class="my_row">
+                <div class="text_center" style="background-color:pink;">
+                    <h2 class="text-center my_title">
+                    Your Cart
+                    </h2>
+                </div>
+            </div>
+            <div class="container">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                    <table class="table my_table">
+                        <thead class="my_thead">
+                            <tr>
+                                <th colspan="5">
+                                    Your Item
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_item %}
+                                <tr>
+                                    <td>
+                                        <a href="{{item.product.get_url}}">
+                                            <img src="{{item.product.image.url}}" alt=""  class="float-left rounded my_img">
+                                        </a>
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.product.name}}
+                                        <br>
+                                        SKU:{{item.product.id}}
+                                        <br>
+                                        Price: $ {{item.product.price}}
+                                        <br>
+                                        Quantity:{{item.quantity}}
+                                    </td>
+                                    <td>
+                                        Subtotal :{{item.sub_total}}
+                                    </td>
+                                    {% if item.quantity < item.product.stock %}
+                                        <td>
+                                            <a href="{% url 'cart:add_to_cart' item.product.id %}" class="custom_a">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                            <br>
+                                            <a href="{% url 'cart:cart_minus' item.product.id %}" class="custom_a">
+                                                <i class="fa fa-minus"></i>
+                                            </a>
+                                            <br>
+                                            <a href="{% url 'cart:delete' item.product.id %}" class="custom_a">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            <br>
+                                        </td>
+                                    {% else %}
+                                        <td>&nbsp;&nbsp;
+                                            <a href="{% url 'cart:cart_minus' item.product.id %}" class="custom_a">
+                                                <i class="fa fa-minus"></i>
+                                            </a>
+                                            &nbsp;&nbsp;
+                                            <a href="{% url 'cart:delete' item.product.id %}" class="custom_a">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            &nbsp;&nbsp;
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 text-center" >
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                        <table class="table my_table ">
+                            <thead class="my_thead">
+                                <tr class="text-right">
+                                    <th>
+                                        CheckOut
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Please Review ur cart item
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Total Amount : <strong>{{ total }}</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mx_auto">
+                            <a href="{% url 'app:all_category' %}" class="btn btn-secondary btn-block my_button">
+                                Continue Shopping
+                            </a>
+                            <button type="button" class="btn btn-success">Place Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}

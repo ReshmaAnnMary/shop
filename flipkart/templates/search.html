@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block metadescription %}
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+{% endblock %}
+
+{% block title %}
+        Search
+{% endblock %}
+
+{% block content %}
+        <div>
+                <p class="text-center my_search">
+                        You Have Searched For : <b>"{{query}}"</b>
+                </p>
+        </div>
+        <div class="container">
+                <div class="row mx_auto">
+                    {% for i in product %}
+                        <div class="btm_margin col-9 col-sm-12 col-md-4 col-lg-4">
+                            <div class="card text-center" style="min-width:18rem;">
+                                <a href="{{i.get_url}}">
+                                    <img class="img_top my_img" src="{{i.image.url}}" alt="{{i.name}}">
+                                </a>
+                                <div class="card_body ">
+                                    <h3>{{i.name}}</h3>
+                                    <p>{{i.price}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                                <div class="mx-auto">
+                                        <p class="text-center my_search">
+                                                0 Result found
+                                        </p>
+                                </div>
+                    {% endfor %}
+                </div>
+         </div>
+{% endblock %}
